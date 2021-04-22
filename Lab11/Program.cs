@@ -35,11 +35,16 @@ namespace Lab11
 
 
             var hod = db.Hodnocenis.GroupBy(x => x.ZkratkaPredmet);
+            foreach (var predmet in hod)
+            {
+                var foo = hod.Select(x => x.Where(y => y.ZkratkaPredmet == predmet.Key).Average(z => z.Znamka));
+                Console.WriteLine($" {predmet.Key} has average rating of");
+                //DOESN'T WORK :(
+
+            }
+
 
             Console.ReadLine();
-
-
-
 
         }
 
