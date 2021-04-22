@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Database" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\mseck\Downloads\Database.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="Lab11.Properties.Settings" SettingsPropertyName="DatabaseConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Hodnoceni" Member="Hodnocenis">
+    <Type Name="Hodnoceni">
+      <Column Name="IdStudent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZkratkaPredmet" Type="System.String" DbType="NChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Datum" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Znamka" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="Predmet_Hodnoceni" Member="Predmet" ThisKey="ZkratkaPredmet" OtherKey="Zkratka" Type="Predmet" IsForeignKey="true" />
+      <Association Name="Student_Hodnoceni" Member="Student" ThisKey="IdStudent" OtherKey="Id" Type="Student" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StudentPredmet" Member="StudentPredmets">
+    <Type Name="StudentPredmet">
+      <Column Name="IdStudent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZkratkaPredmet" Type="System.String" DbType="NChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Predmet_StudentPredmet" Member="Predmet" ThisKey="ZkratkaPredmet" OtherKey="Zkratka" Type="Predmet" IsForeignKey="true" />
+      <Association Name="Student_StudentPredmet" Member="Student" ThisKey="IdStudent" OtherKey="Id" Type="Student" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Predmet" Member="Predmets">
+    <Type Name="Predmet">
+      <Column Name="Zkratka" Type="System.String" DbType="NChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nazev" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Predmet_Hodnoceni" Member="Hodnocenis" ThisKey="Zkratka" OtherKey="ZkratkaPredmet" Type="Hodnoceni" />
+      <Association Name="Predmet_StudentPredmet" Member="StudentPredmets" ThisKey="Zkratka" OtherKey="ZkratkaPredmet" Type="StudentPredmet" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Student" Member="Students">
+    <Type Name="Student">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Jmeno" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Prijmeni" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DatumNarozeni" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Student_Hodnoceni" Member="Hodnocenis" ThisKey="Id" OtherKey="IdStudent" Type="Hodnoceni" />
+      <Association Name="Student_StudentPredmet" Member="StudentPredmets" ThisKey="Id" OtherKey="IdStudent" Type="StudentPredmet" />
+    </Type>
+  </Table>
+</Database>
